@@ -13,4 +13,8 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Wangku"
-include ':app'
+include(
+    ":app",
+    ":data",
+    ":domain"
+)
