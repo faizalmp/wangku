@@ -23,20 +23,28 @@ android {
 
     buildTypes {
         getByName(Config.BuildTypes.RELEASE) {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         getByName(Config.BuildTypes.DEBUG) {
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = Config.jvmTarget
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
