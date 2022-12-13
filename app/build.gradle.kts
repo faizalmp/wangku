@@ -1,11 +1,17 @@
 import constants.Config
 import constants.Dependencies
 import utils.implementLibs
+import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+}
+
+fun getPropertiesFile(path: String) = Properties().apply {
+    load(FileInputStream(file(path)))
 }
 
 android {
@@ -25,11 +31,17 @@ android {
         getByName(Config.BuildTypes.RELEASE) {
             isMinifyEnabled = true
             isShrinkResources = true
+            getPropertiesFile("../config.properties").forEach { key, value ->
+                buildConfigField(type = "String", name = key.toString(), value = value.toString())
+            }
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         getByName(Config.BuildTypes.DEBUG) {
             isMinifyEnabled = false
             isShrinkResources = false
+            getPropertiesFile("../config.properties").forEach { key, value ->
+                buildConfigField(type = "String", name = key.toString(), value = value.toString())
+            }
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }

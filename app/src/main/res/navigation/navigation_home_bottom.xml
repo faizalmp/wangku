@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/main_fragment">
+
+    <fragment
+        android:id="@+id/main_fragment"
+        android:name="id.faizalempe.wangku.presentation.screen.home.main.MainFragment" />
+
+    <fragment
+        android:id="@+id/news_fragment"
+        android:name="id.faizalempe.wangku.presentation.screen.home.news.NewsFragment" />
+
+    <fragment
+        android:id="@+id/stats_fragment"
+        android:name="id.faizalempe.wangku.presentation.screen.home.stats.StatsFragment" />
+
+    <fragment
+        android:id="@+id/menu_fragment"
+        android:name="id.faizalempe.wangku.presentation.screen.home.menu.MenuFragment" />
+
+</navigation>

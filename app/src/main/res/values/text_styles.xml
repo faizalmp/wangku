@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextView.H1" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_20ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextView.H2" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextView.H3" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_14ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextView.P" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+
+</resources>

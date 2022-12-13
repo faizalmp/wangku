@@ -5,7 +5,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import id.faizalempe.wangku.R
 import id.faizalempe.wangku.databinding.ActivityContainerBinding
-import id.faizalempe.wangku.presentation.util.base.BaseActivity
+import id.faizalempe.wangku.util.base.BaseActivity
+import id.faizalempe.wangku.util.ext.getViewBind
 
 class ContainerActivity : BaseActivity<ActivityContainerBinding>() {
 
@@ -14,7 +15,7 @@ class ContainerActivity : BaseActivity<ActivityContainerBinding>() {
     }
 
     override fun inflateViewBinding(): ActivityContainerBinding =
-        ActivityContainerBinding.inflate(layoutInflater)
+        getViewBind(ActivityContainerBinding::inflate)
 
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.container_host) as? NavHostFragment)

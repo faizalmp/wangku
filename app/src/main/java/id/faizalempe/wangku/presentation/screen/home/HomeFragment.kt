@@ -1,9 +1,12 @@
 package id.faizalempe.wangku.presentation.screen.home
 
-import android.os.Bundle
-import android.view.View
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import id.faizalempe.wangku.R
 import id.faizalempe.wangku.databinding.FragmentHomeBinding
-import id.faizalempe.wangku.presentation.util.base.BaseFragment
+import id.faizalempe.wangku.util.base.BaseFragment
+import id.faizalempe.wangku.util.ext.getViewBind
 
 /**
  * @author Faizal Muhammad Priyowibowo (faizal.priyowibowo@dana.id)
@@ -11,10 +14,17 @@ import id.faizalempe.wangku.presentation.util.base.BaseFragment
  */
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    override fun inflateViewBinding(): FragmentHomeBinding =
-        FragmentHomeBinding.inflate(layoutInflater)
+    private val navChildController by lazy {
+        (childFragmentManager.findFragmentById(R.id.host_home) as? NavHostFragment)
+            ?.findNavController()
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun inflateViewBinding(): FragmentHomeBinding =
+        getViewBind(FragmentHomeBinding::inflate)
+
+    override fun initView() {
+        with(binding) {
+            navChildController?.let { bottomNavHome.setupWithNavController(it) }
+        }
     }
 }
