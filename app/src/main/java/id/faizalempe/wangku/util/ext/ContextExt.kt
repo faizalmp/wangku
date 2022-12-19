@@ -1,13 +1,16 @@
-package id.faizalempe.core.constant.ext
+package id.faizalempe.wangku.util.ext
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
-import androidx.annotation.NavigationRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import id.faizalempe.core.ext.safe
+import id.faizalempe.data.util.toJsonString
+import id.faizalempe.wangku.navigation.WangkuScreen
 import id.faizalempe.wangku.presentation.screen.ContainerActivity
 
 /**
@@ -16,12 +19,14 @@ import id.faizalempe.wangku.presentation.screen.ContainerActivity
  */
 
 fun Context?.startNewContainerActivity(
-    @NavigationRes navGraphResId: Int,
-    isFinishCurrent: Boolean = false
+    screen: WangkuScreen,
+    isFinishCurrent: Boolean = false,
+    param: Any = ""
 ) {
-    this?.let { context ->
+    safe(this) { context ->
         val intent = Intent(context, ContainerActivity::class.java).apply {
-            putExtra(ContainerActivity.EXTRA_NAV_GRAPH, navGraphResId)
+            putExtra(ContainerActivity.EXTRA_NAV_GRAPH, screen.navGraphRes)
+            putExtra(ContainerActivity.EXTRA_PARAM, param.toJsonString())
         }
         context.startActivity(intent)
         val isActivityContext = context is FragmentActivity || context is Activity
@@ -30,11 +35,17 @@ fun Context?.startNewContainerActivity(
 }
 
 fun Context?.getColorCompat(@ColorRes colorResId: Int): Int {
-    return this?.let { context ->
+    return safe(this) { context ->
        ContextCompat.getColor(context, colorResId)
     } ?: android.R.color.transparent
 }
 
 fun Context?.getDimen(@DimenRes dimenResId: Int): Int {
     return this?.resources?.getDimensionPixelSize(dimenResId) ?: 0
+}
+
+fun Context?.showToast(message: String, toastLength: Int = Toast.LENGTH_SHORT) {
+    safe(this) { context ->
+        Toast.makeText(context, message, toastLength).show()
+    }
 }

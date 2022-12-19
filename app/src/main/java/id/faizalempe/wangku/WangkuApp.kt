@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import id.faizalempe.data.di.ApiModule
 import id.faizalempe.data.di.NetworkModule
+import id.faizalempe.wangku.di.component.ApplicationComponent
 import id.faizalempe.wangku.di.component.DaggerApplicationComponent
 import id.faizalempe.wangku.di.module.ApplicationModule
 import id.faizalempe.wangku.di.module.RepositoryModule
@@ -30,7 +31,7 @@ class WangkuApp : Application() {
 
     companion object {
         @JvmStatic
-        fun getAppComponent(context: Context) =
+        fun getAppComponent(context: Context): ApplicationComponent =
             (context.applicationContext as WangkuApp).appComponent
     }
 }

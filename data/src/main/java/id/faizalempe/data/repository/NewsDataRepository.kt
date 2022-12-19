@@ -18,8 +18,8 @@ class NewsDataRepository @Inject constructor(
     private val dataSourceFactory: NewsDataSourceFactory
 ) : NewsRepository {
 
-    override fun getRemoteNews(): Observable<NewsDto> =
-        dataSourceFactory.createData(DataSourceType.REMOTE).getNews().map { response ->
+    override fun getRemoteNews(page: Int): Observable<NewsDto> =
+        dataSourceFactory.createData(DataSourceType.REMOTE).getNews(page).map { response ->
             NewsMapper.mapNewsResponseToDto(response)
         }
 

@@ -8,6 +8,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    kotlin("plugin.parcelize")
 }
 
 fun getPropertiesFile(path: String) = Properties().apply {

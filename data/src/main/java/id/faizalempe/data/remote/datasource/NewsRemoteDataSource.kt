@@ -1,6 +1,6 @@
 package id.faizalempe.data.remote.datasource
 
-import id.faizalempe.data.base.news.NewsBaseDataSource
+import id.faizalempe.data.base.news.NewsDataSource
 import id.faizalempe.data.remote.api.NewsApi
 import id.faizalempe.data.remote.response.NewsResponse
 import io.reactivex.Observable
@@ -14,8 +14,8 @@ import javax.inject.Singleton
 @Singleton
 class NewsRemoteDataSource @Inject constructor(
     private val newsApi: NewsApi
-) : NewsBaseDataSource {
+) : NewsDataSource {
 
-    override fun getNews(): Observable<NewsResponse> =
-        newsApi.getNews().toObservable()
+    override fun getNews(page: Int): Observable<NewsResponse> =
+        newsApi.getNews(page = page)
 }

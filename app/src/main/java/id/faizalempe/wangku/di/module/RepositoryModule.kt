@@ -3,7 +3,9 @@ package id.faizalempe.wangku.di.module
 import dagger.Module
 import dagger.Provides
 import id.faizalempe.data.repository.NewsDataRepository
+import id.faizalempe.data.repository.TransactionDataRepository
 import id.faizalempe.domain.repository.NewsRepository
+import id.faizalempe.domain.repository.TransactionRepository
 import javax.inject.Singleton
 
 /**
@@ -15,7 +17,13 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideNewsDataRepository(
+    fun provideNewsRepository(
         newsDataRepository: NewsDataRepository
     ): NewsRepository = newsDataRepository
+
+    @Provides
+    @Singleton
+    fun provideTransactionRepository(
+        transactionDataRepository: TransactionDataRepository
+    ): TransactionRepository = transactionDataRepository
 }

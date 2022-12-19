@@ -37,7 +37,7 @@ object NewsMapper {
         }
     }
 
-    private fun mapArticleSourceResponseToDto(source: ArticleSourceResponse?): ArticleSourceDto {
+    fun mapArticleSourceResponseToDto(source: ArticleSourceResponse?): ArticleSourceDto {
         return ArticleSourceDto(
             id = source?.id.orEmpty(),
             name = source?.name.orEmpty()

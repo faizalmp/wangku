@@ -15,9 +15,9 @@ import javax.inject.Singleton
 class NewsDataSourceFactory @Inject constructor(
     private val remoteDataSource: NewsRemoteDataSource,
     private val mockDataSource: NewsMockDataSource
-) : AbstractDataSource<NewsBaseDataSource>() {
+) : AbstractDataSource<NewsDataSource>() {
 
-    override fun createData(source: DataSourceType): NewsBaseDataSource = when (source) {
+    override fun createData(source: DataSourceType): NewsDataSource = when (source) {
         DataSourceType.REMOTE -> remoteDataSource
         DataSourceType.MOCK -> mockDataSource
         else -> remoteDataSource

@@ -2,23 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/main_fragment"
-        android:icon="@drawable/ic_home"
-        android:title="Home" />
-
-    <item
         android:id="@+id/news_fragment"
-        android:icon="@drawable/ic_home"
-        android:title="News" />
+        android:icon="@drawable/ic_general_news"
+        android:title="@string/menu_news" />
 
     <item
-        android:id="@+id/stats_fragment"
-        android:icon="@drawable/ic_home"
-        android:title="Stats" />
-
-    <item
-        android:id="@+id/menu_fragment"
-        android:icon="@drawable/ic_home"
-        android:title="Menu" />
+        android:id="@+id/transaction_fragment"
+        android:icon="@drawable/ic_general_balance"
+        android:title="@string/menu_transaction" />
 
 </menu>

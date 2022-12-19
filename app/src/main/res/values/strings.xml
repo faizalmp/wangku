@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Wangku</string>
+
+    <string name="menu_news">News</string>
+    <string name="menu_transaction">Balance</string>
+    <string name="menu_stats">Stats</string>
+
+    <string name="news_title">Wangku News</string>
+    <string name="transaction_title">My Balance</string>
+
+    <string name="error_text">Sadly error eccured :( \n Please try again</string>
+    <string name="error_action">Retry</string>
+
+    <string name="transaction_total_label">Total</string>
+    <string name="transaction_income_label">Income</string>
+    <string name="transaction_expense_label">Expense</string>
+
+    <string name="transactiondetail_create_title">Create Transaction</string>
+    <string name="transactiondetail_edit_title">Edit Transaction</string>
+    <string name="transactiondetail_create_action">Create Transaction</string>
+    <string name="transactiondetail_edit_action">Confirm Edit</string>
+    <string name="transactiondetail_delete_action">Delete Transaction</string>
 </resources>

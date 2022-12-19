@@ -6,6 +6,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
+    kotlin("plugin.parcelize")
 }
 
 fun getPropertiesFile(path: String) = Properties().apply {

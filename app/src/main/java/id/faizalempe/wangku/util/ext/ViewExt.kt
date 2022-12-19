@@ -1,7 +1,12 @@
 package id.faizalempe.wangku.util.ext
 
 import android.view.View
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import com.bumptech.glide.Glide
 import id.faizalempe.core.constant.WangkuConstant
+import id.faizalempe.core.ext.safe
+import id.faizalempe.wangku.R
 
 /**
  * @author Faizal Muhammad Priyowibowo (faizal.priyowibowo@dana.id)
@@ -9,7 +14,7 @@ import id.faizalempe.core.constant.WangkuConstant
  */
 
 fun View?.clickDebounce(delay: Long = WangkuConstant.Time.CLICK_DELAY, action: () -> Unit) {
-    this?.let { view ->
+    safe(this) { view ->
         var lastClickTime = 0L
         view.setOnClickListener {
             val currentTime = System.currentTimeMillis()
@@ -22,21 +27,34 @@ fun View?.clickDebounce(delay: Long = WangkuConstant.Time.CLICK_DELAY, action: (
 }
 
 fun View?.goneIf(condition: Boolean) {
-    this?.let { view -> if (condition) view.gone() }
+    safe(this) { view -> if (condition) view.gone() }
 }
 
 fun View?.invisibleIf(condition: Boolean) {
-    this?.let { view -> if (condition) view.invisible() }
+    safe(this) { view -> if (condition) view.invisible() }
 }
 
 fun View?.visible() {
-    this?.let { view -> view.visibility = View.VISIBLE}
+    safe(this) { view -> view.visibility = View.VISIBLE}
 }
 
 fun View?.gone() {
-    this?.let { view -> view.visibility = View.GONE}
+    safe(this) { view -> view.visibility = View.GONE}
 }
 
 fun View?.invisible() {
-    this?.let { view -> view.visibility = View.INVISIBLE}
+    safe(this) { view -> view.visibility = View.INVISIBLE}
+}
+
+fun ImageView?.loadImage(
+    imageUrl: String,
+    @DrawableRes placeholderRes: Int = R.drawable.bg_general_placeholder
+) {
+    safe(this) { imageView ->
+        Glide
+            .with(imageView.context)
+            .load(imageUrl)
+            .placeholder(placeholderRes)
+            .into(imageView)
+    }
 }

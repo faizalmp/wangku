@@ -9,6 +9,6 @@ import io.reactivex.Observable
  */
 interface NewsRepository {
 
-    fun getRemoteNews(): Observable<NewsDto>
+    fun getRemoteNews(page: Int): Observable<NewsDto>
 
 }

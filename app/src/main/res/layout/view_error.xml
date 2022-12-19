@@ -4,21 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        app:srcCompat="@drawable/ic_general_error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintBottom_toTopOf="@id/tv_error"/>
+
     <Button
         android:id="@+id/btn_error"
+        style="@style/WangkuButton.Primary.S"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="refresh sini ya"
+        android:drawableLeft="@drawable/ic_general_refresh"
+        android:text="@string/error_action"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_error" />
 
     <TextView
         android:id="@+id/tv_error"
+        style="@style/WangkuText.H3"
+        android:textStyle="normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Error bang"
+        android:text="@string/error_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

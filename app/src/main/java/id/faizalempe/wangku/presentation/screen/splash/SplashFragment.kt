@@ -1,11 +1,11 @@
 package id.faizalempe.wangku.presentation.screen.splash
 
-import id.faizalempe.wangku.R
 import id.faizalempe.wangku.databinding.FragmentSplashBinding
-import id.faizalempe.wangku.util.base.BaseFragment
+import id.faizalempe.wangku.presentation.base.BaseFragment
 import id.faizalempe.core.constant.WangkuConstant
 import id.faizalempe.wangku.util.RxUtil
-import id.faizalempe.core.constant.ext.startNewContainerActivity
+import id.faizalempe.wangku.util.ext.startNewContainerActivity
+import id.faizalempe.wangku.navigation.WangkuScreen
 
 /**
  * @author Faizal Muhammad Priyowibowo (faizal.priyowibowo@dana.id)
@@ -16,9 +16,9 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     override fun inflateViewBinding(): FragmentSplashBinding =
         FragmentSplashBinding.inflate(layoutInflater)
 
-    override fun initView() {
+    override fun FragmentSplashBinding.init() {
         RxUtil.doDelayed(WangkuConstant.Time.SPLASH_DELAY) {
-            context.startNewContainerActivity(R.navigation.navigation_home, true)
+            context.startNewContainerActivity(WangkuScreen.Main, true)
         }
     }
 }

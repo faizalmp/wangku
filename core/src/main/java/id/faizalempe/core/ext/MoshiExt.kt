@@ -16,7 +16,8 @@ inline fun <reified T> T.toJsonString() : String {
     return jsonAdapter.toJson(this).toString()
 }
 
-inline fun <reified T> String.toObject() : T? {
+inline fun <reified T> String?.toObject() : T? {
+    if (this.isNullOrEmpty()) return null
     val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
