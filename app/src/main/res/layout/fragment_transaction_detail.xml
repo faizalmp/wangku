@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<id.faizalempe.wangku.util.view.WangkuViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flipper_transactiondetail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_transactiondetail_title"
+            style="@style/WangkuText.H1.B"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/color_primary"
+            android:layout_marginTop="@dimen/_10sdp"
+            tools:text="Create Transaction"/>
+
+        <RadioGroup
+            android:id="@+id/rg_transactiondetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_income"
+                android:layout_width="wrap_content"
+                android:text="@string/transaction_income_label"
+                android:textColor="@color/color_primary"
+                android:layout_height="match_parent"/>
+
+            <RadioButton
+                android:id="@+id/rb_expense"
+                android:text="@string/transaction_expense_label"
+                android:textColor="@color/color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_transactiondetail_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="Date">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_transactiondetail_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="30/11/2022"
+                android:focusableInTouchMode="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_transactiondetail_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="Amount">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_transactiondetail_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned|numberDecimal"
+                tools:text="10.000.000" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_transactiondetail_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:hint="Description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_transactiondetail_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                tools:text="Buat bayar makanan kucing" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_transactiondetail"
+            style="@style/WangkuButton.Primary.S"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Create Transaction"
+            android:layout_marginTop="@dimen/_10sdp"/>
+
+        <Button
+            android:id="@+id/btn_transactiondetail_delete"
+            style="@style/WangkuButton.Primary.S"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/transactiondetail_delete_action"
+            android:layout_marginTop="@dimen/_10sdp"/>
+
+    </LinearLayout>
+
+</id.faizalempe.wangku.util.view.WangkuViewFlipper>
