@@ -1,9 +1,16 @@
 import constants.Config
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
+    kotlin("plugin.parcelize")
+}
+
+fun getPropertiesFile(path: String) = Properties().apply {
+    load(FileInputStream(file(path)))
 }
 
 android {
@@ -19,10 +26,16 @@ android {
     buildTypes {
         getByName(Config.BuildTypes.RELEASE) {
             isMinifyEnabled = true
+            getPropertiesFile("../config.properties").forEach { key, value ->
+                buildConfigField(type = "String", name = key.toString(), value = value.toString())
+            }
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         getByName(Config.BuildTypes.DEBUG) {
             isMinifyEnabled = false
+            getPropertiesFile("../config.properties").forEach { key, value ->
+                buildConfigField(type = "String", name = key.toString(), value = value.toString())
+            }
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }

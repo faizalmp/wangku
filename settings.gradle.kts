@@ -18,3 +18,7 @@ include(
     ":data",
     ":domain"
 )
+include(":shared")
+include(":shared:uikit")
+include(":shared:network")
+include(":core")

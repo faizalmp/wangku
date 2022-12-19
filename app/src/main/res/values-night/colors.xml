@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">@color/white</color>
+    <color name="color_primary_variant">@color/white</color>
+    <color name="color_on_primary">@color/black</color>
+    <color name="black">#FF000000</color>
+    <color name="black_100">#101010</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
