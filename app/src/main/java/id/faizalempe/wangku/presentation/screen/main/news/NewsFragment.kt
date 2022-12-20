@@ -2,9 +2,6 @@ package id.faizalempe.wangku.presentation.screen.main.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import id.faizalempe.wangku.util.ext.getDimen
-import id.faizalempe.wangku.util.ext.startNewContainerActivity
 import id.faizalempe.domain.model.news.ArticleDto
 import id.faizalempe.domain.model.news.NewsDto
 import id.faizalempe.wangku.WangkuApp
@@ -15,8 +12,7 @@ import id.faizalempe.wangku.presentation.di.main.news.NewsModule
 import id.faizalempe.wangku.presentation.screen.webview.WebviewArgs
 import id.faizalempe.wangku.presentation.base.BaseFragment
 import id.faizalempe.wangku.presentation.base.GenericRecyclerViewAdapter
-import id.faizalempe.wangku.util.ext.getViewBind
-import id.faizalempe.wangku.util.ext.loadImage
+import id.faizalempe.wangku.util.ext.*
 import id.faizalempe.wangku.util.view.LinearItemMarginDecoration
 import javax.inject.Inject
 
@@ -52,33 +48,16 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
         }
     }
 
-    private val infiniteScrollListener by lazy {
-        object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        }
-    }
-
     override fun inflateViewBinding(): FragmentNewsBinding = getViewBind(FragmentNewsBinding::inflate)
 
     override fun onResume() {
         super.onResume()
-        presenter.getNews(true)
-    }
-
-    override fun onDestroyView() {
-        presenter.onDestroy()
-        binding.rvNews.clearOnScrollListeners()
-        super.onDestroyView()
+        presenter.getNews()
     }
 
     override fun FragmentNewsBinding.init() {
         inject()
+        presenter.attachView(lifecycle)
         initView()
         initListener()
     }
@@ -104,12 +83,11 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
                 )
             )
             adapter = newsAdapter
-            addOnScrollListener(infiniteScrollListener)
         }
     }
 
     private fun FragmentNewsBinding.initListener() {
-        flipperNews.clickRefresh { presenter.getNews(true) }
+        flipperNews.clickRefresh { presenter.getNews() }
     }
 
     private fun inject() {

@@ -41,6 +41,12 @@ abstract class GenericRecyclerViewAdapter<T : Any, VB: ViewBinding>(
 
     fun setData(newData: List<T>) = differ.submitList(newData)
 
+    fun addData(newData: List<T>) {
+        val list = differ.currentList
+        list.addAll(newData)
+        differ.submitList(list)
+    }
+
     fun clearData() = differ.submitList(emptyList())
 
     class GenericViewHolder<T, VB: ViewBinding>(

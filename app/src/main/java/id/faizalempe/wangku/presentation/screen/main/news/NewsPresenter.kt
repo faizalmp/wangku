@@ -1,9 +1,10 @@
 package id.faizalempe.wangku.presentation.screen.main.news
 
-import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import id.faizalempe.core.constant.WangkuConstant
 import id.faizalempe.core.ext.safe
 import id.faizalempe.domain.usecase.news.GetRemoteNews
+import id.faizalempe.wangku.presentation.base.BasePresenter
 import javax.inject.Inject
 
 /**
@@ -13,24 +14,19 @@ import javax.inject.Inject
 class NewsPresenter @Inject constructor(
     private val view: NewsContract.View,
     private val getRemoteNews: GetRemoteNews
-) : NewsContract.Presenter, DefaultLifecycleObserver {
+) : BasePresenter(), NewsContract.Presenter {
 
-    private var page: Int = WangkuConstant.Data.News.DEFAULT_PAGE
-
-    override fun getNews(isFirstTimeLoad: Boolean) {
+    override fun getNews() {
         view.showLoading()
-        if (isFirstTimeLoad) page = WangkuConstant.Data.News.DEFAULT_PAGE
         getRemoteNews.observe(
-            params = GetRemoteNews.Params(page = page),
-            onSuccess = {
-                view.showContent(it)
-                page++
-            },
+            params = GetRemoteNews.Params(page = WangkuConstant.Data.News.DEFAULT_PAGE),
+            onSuccess = { view.showContent(it) },
             onError = { e -> safe(e.message) { view.showError(it) } }
         )
     }
 
-    override fun onDestroy() {
+    override fun onDestroy(owner: LifecycleOwner) {
         getRemoteNews.dispose()
+        super.onDestroy(owner)
     }
 }

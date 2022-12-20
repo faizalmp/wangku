@@ -13,7 +13,5 @@ interface AbstractContract {
 
     }
 
-    interface AbstractPresenter {
-        fun onDestroy()
-    }
+    interface AbstractPresenter
 }

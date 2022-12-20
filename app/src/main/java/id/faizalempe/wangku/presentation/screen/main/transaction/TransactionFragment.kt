@@ -67,6 +67,7 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>(), Transact
 
     override fun FragmentTransactionBinding.init() {
         inject()
+        presenter.attachView(lifecycle)
         initView()
         initListener()
         presenter.getTransactionBalance()
@@ -112,10 +113,5 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>(), Transact
         WangkuApp.getAppComponent(requireContext())
             .plus(TransactionModule(this))
             .inject(this)
-    }
-
-    override fun onDestroyView() {
-        presenter.onDestroy()
-        super.onDestroyView()
     }
 }

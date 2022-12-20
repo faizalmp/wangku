@@ -58,6 +58,7 @@ class DetailTransactionFragment :
 
     override fun FragmentTransactionDetailBinding.init() {
         inject()
+        presenter.attachView(lifecycle)
         initView()
         initListener()
     }
@@ -184,11 +185,6 @@ class DetailTransactionFragment :
     override fun onDismiss(dialog: DialogInterface) {
         onDismiss.invoke()
         super.onDismiss(dialog)
-    }
-
-    override fun onDestroyView() {
-        presenter.onDestroy()
-        super.onDestroyView()
     }
 
     companion object {
