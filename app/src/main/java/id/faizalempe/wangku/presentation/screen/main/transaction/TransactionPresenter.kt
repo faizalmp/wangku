@@ -1,7 +1,9 @@
 package id.faizalempe.wangku.presentation.screen.main.transaction
 
+import androidx.lifecycle.LifecycleOwner
 import id.faizalempe.core.ext.safe
 import id.faizalempe.domain.usecase.transaction.GetAllTransactionBalance
+import id.faizalempe.wangku.presentation.base.BasePresenter
 import javax.inject.Inject
 
 /**
@@ -11,7 +13,7 @@ import javax.inject.Inject
 class TransactionPresenter @Inject constructor(
     private val view: TransactionContract.View,
     private val getAllTransactionBalance: GetAllTransactionBalance
-) : TransactionContract.Presenter {
+) : BasePresenter(), TransactionContract.Presenter {
 
     override fun getTransactionBalance(
         startDate: String,
@@ -27,7 +29,8 @@ class TransactionPresenter @Inject constructor(
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroy(owner: LifecycleOwner) {
         getAllTransactionBalance.dispose()
+        super.onDestroy(owner)
     }
 }

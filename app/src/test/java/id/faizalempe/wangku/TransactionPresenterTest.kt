@@ -62,6 +62,4 @@ class TransactionPresenterTest {
         RxJavaPlugins.reset()
         RxAndroidPlugins.reset()
     }
-
-
 }

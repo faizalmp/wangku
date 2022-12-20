@@ -18,7 +18,6 @@ class NewsDataSourceFactory @Inject constructor(
 ) : AbstractDataSource<NewsDataSource>() {
 
     override fun createData(source: DataSourceType): NewsDataSource = when (source) {
-        DataSourceType.REMOTE -> remoteDataSource
         DataSourceType.MOCK -> mockDataSource
         else -> remoteDataSource
     }

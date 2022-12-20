@@ -15,9 +15,6 @@ class TransactionDataSourceFactory @Inject constructor(
     private val localDataSource: TransactionLocalDataSource
 ) : AbstractDataSource<TransactionDataSource>() {
 
-    override fun createData(source: DataSourceType): TransactionDataSource = when (source) {
-        DataSourceType.LOCAL -> localDataSource
-        else -> localDataSource
-    }
+    override fun createData(source: DataSourceType): TransactionDataSource = localDataSource
 
 }

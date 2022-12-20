@@ -14,6 +14,6 @@ interface NewsContract {
     }
 
     interface Presenter : AbstractContract.AbstractPresenter {
-        fun getNews(isFirstTimeLoad: Boolean)
+        fun getNews()
     }
 }
