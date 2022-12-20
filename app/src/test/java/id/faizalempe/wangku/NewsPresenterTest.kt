@@ -49,7 +49,7 @@ class NewsPresenterTest {
         }
 
         // when
-        presenter.getNews(true)
+        presenter.getNews()
 
         // then
         verify {

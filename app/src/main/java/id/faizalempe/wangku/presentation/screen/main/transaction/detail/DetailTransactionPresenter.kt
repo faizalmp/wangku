@@ -1,10 +1,12 @@
 package id.faizalempe.wangku.presentation.screen.main.transaction.detail
 
+import androidx.lifecycle.LifecycleOwner
 import id.faizalempe.core.ext.safe
 import id.faizalempe.domain.usecase.transaction.CreateTransaction
 import id.faizalempe.domain.usecase.transaction.DeleteTransaction
 import id.faizalempe.domain.usecase.transaction.UpdateTransaction
 import id.faizalempe.domain.model.transaction.TransactionDto
+import id.faizalempe.wangku.presentation.base.BasePresenter
 import javax.inject.Inject
 
 /**
@@ -16,7 +18,7 @@ class DetailTransactionPresenter @Inject constructor(
     private val createTransaction: CreateTransaction,
     private val updateTransaction: UpdateTransaction,
     private val deleteTransaction: DeleteTransaction
-) : DetailTransactionContract.Presenter {
+) : BasePresenter(), DetailTransactionContract.Presenter {
 
     override fun createTransaction(transaction: TransactionDto) {
         with(view) {
@@ -51,9 +53,10 @@ class DetailTransactionPresenter @Inject constructor(
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroy(owner: LifecycleOwner) {
         createTransaction.dispose()
         updateTransaction.dispose()
         deleteTransaction.dispose()
+        super.onDestroy(owner)
     }
 }

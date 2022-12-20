@@ -18,7 +18,10 @@ object RxUtil {
         if (RxUtil::disposable.isInitialized) disposable.dispose()
         disposable = Observable.timer(delay, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
-            .subscribe { action.invoke() }
+            .subscribe {
+                action.invoke()
+                disposable.dispose()
+            }
     }
 
 }
