@@ -1,7 +1,5 @@
 package id.faizalempe.wangku.presentation.screen.main.transaction
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import id.faizalempe.core.ext.tag
 import id.faizalempe.core.util.CalendarUtil
 import id.faizalempe.core.util.CalendarUtil.toCalendar
@@ -32,34 +30,25 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>(), Transact
     lateinit var presenter: TransactionPresenter
 
     private val transactionAdapter by lazy {
-        object : GenericRecyclerViewAdapter<TransactionDto, ItemTransactionBinding>(
-            areItemsTheSame = { oldItem, newItem -> oldItem.id == newItem.id }
-        ) {
-            override fun inflateViewBinding(
-                inflater: LayoutInflater,
-                parent: ViewGroup
-            ): ItemTransactionBinding =
-                ItemTransactionBinding.inflate(inflater, parent, false)
-
-            override fun onBindItem(itemData: TransactionDto, position: Int) {
-                with(itemBinding) {
-                    val itemCal = itemData.datetime.toCalendar()
-                    tvTransactionDesc.text = itemData.desc
-                    tvTransactionCategory.text = itemData.category
-                    tvTransactionAmount.text = itemData.amount.toString()
-                    tvTransactionDate.text = itemCal.get(Calendar.DAY_OF_MONTH).toString()
-                    tvTransactionMonth.text = itemCal.toDateFormat(CalendarUtil.Format.MONTH_FORMAT)
-                    tvTransactionYear.text = itemCal.get(Calendar.YEAR).toString()
-                }
-            }
-
-            override fun onItemClick(itemData: TransactionDto, position: Int) {
+        GenericRecyclerViewAdapter<TransactionDto, ItemTransactionBinding>(
+            areItemsTheSame = { oldItem, newItem -> oldItem.id == newItem.id },
+            itemViewBinding = { inflater, parent -> ItemTransactionBinding.inflate(inflater, parent, false) },
+            onBindItem = { itemData, _ ->
+                val itemCal = itemData.datetime.toCalendar()
+                tvTransactionDesc.text = itemData.desc
+                tvTransactionCategory.text = itemData.category
+                tvTransactionAmount.text = itemData.amount.toString()
+                tvTransactionDate.text = itemCal.get(Calendar.DAY_OF_MONTH).toString()
+                tvTransactionMonth.text = itemCal.toDateFormat(CalendarUtil.Format.MONTH_FORMAT)
+                tvTransactionYear.text = itemCal.get(Calendar.YEAR).toString()
+            },
+            onItemClick = { itemData, _ ->
                 DetailTransactionFragment.newInstance(
                     transactionDto = itemData,
                     onDismiss = { presenter.getTransactionBalance() }
                 ).show(childFragmentManager, tag<DetailTransactionFragment>())
             }
-        }
+        )
     }
 
     override fun inflateViewBinding(): FragmentTransactionBinding =
@@ -91,13 +80,9 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>(), Transact
         }
     }
 
-    override fun showLoading() {
-        binding.flipperTransaction.showLoading()
-    }
+    override fun showLoading() = binding.flipperTransaction.showLoading()
 
-    override fun showError(message: String) {
-        binding.flipperTransaction.showError()
-    }
+    override fun showError(message: String) = binding.flipperTransaction.showError()
 
     override fun showContent(transactionBalance: TransactionBalanceDto) {
         with(binding) {

@@ -17,5 +17,5 @@ class NewsRemoteDataSource @Inject constructor(
 ) : NewsDataSource {
 
     override fun getNews(page: Int): Observable<NewsResponse> =
-        newsApi.getNews(page = page)
+        newsApi.getNews(page = page).toObservable()
 }

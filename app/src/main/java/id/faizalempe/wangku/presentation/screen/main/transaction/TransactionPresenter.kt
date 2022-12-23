@@ -15,10 +15,7 @@ class TransactionPresenter @Inject constructor(
     private val getAllTransactionBalance: GetAllTransactionBalance
 ) : BasePresenter(), TransactionContract.Presenter {
 
-    override fun getTransactionBalance(
-        startDate: String,
-        endDate: String
-    ) {
+    override fun getTransactionBalance() {
         with(view) {
             showLoading()
             getAllTransactionBalance.observe(

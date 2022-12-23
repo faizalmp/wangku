@@ -10,10 +10,11 @@ import id.faizalempe.wangku.presentation.base.AbstractContract
 interface NewsContract {
 
     interface View : AbstractContract.AbstractView {
-        fun showContent(news: NewsDto)
+        fun showContent(news: NewsDto, isFirstTimeLoad: Boolean)
+        fun showPaginationLoading()
     }
 
     interface Presenter : AbstractContract.AbstractPresenter {
-        fun getNews()
+        fun getNews(isFirstTimeLoad: Boolean)
     }
 }

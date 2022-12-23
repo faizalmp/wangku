@@ -43,13 +43,9 @@ class DetailTransactionFragment :
     override fun inflateViewBinding(): FragmentTransactionDetailBinding =
         getViewBind(FragmentTransactionDetailBinding::inflate)
 
-    override fun showLoading() {
-        binding.flipperTransactiondetail.showLoading()
-    }
+    override fun showLoading() = binding.flipperTransactiondetail.showLoading()
 
-    override fun showError(message: String) {
-        binding.flipperTransactiondetail.showContent()
-    }
+    override fun showError(message: String) = binding.flipperTransactiondetail.showContent()
 
     override fun onSubmitSuccess() {
         binding.flipperTransactiondetail.showContent()
