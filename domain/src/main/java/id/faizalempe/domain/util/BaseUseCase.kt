@@ -1,5 +1,6 @@
 package id.faizalempe.domain.util
 
+import android.util.Log
 import id.faizalempe.core.ext.OnErrorCallback
 import id.faizalempe.core.ext.OnSuccessCallback
 import io.reactivex.Observable
@@ -31,6 +32,7 @@ abstract class BaseUseCase<T : Any, P> {
                 onSuccess(it)
             }, {
                 onError(it)
+                Log.e("error", it.toString())
                 dispose()
             }, {
                 onComplete()
@@ -39,6 +41,6 @@ abstract class BaseUseCase<T : Any, P> {
     }
 
     fun dispose() {
-        if (!disposables.isDisposed) disposables.dispose()
+        disposables.clear()
     }
 }

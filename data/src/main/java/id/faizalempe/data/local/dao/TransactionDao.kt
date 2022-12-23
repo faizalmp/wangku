@@ -7,7 +7,7 @@ import androidx.room.Query
 import androidx.room.Update
 import id.faizalempe.data.local.model.BalanceData
 import id.faizalempe.data.local.model.entity.TransactionEntity
-import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * @author Faizal Muhammad Priyowibowo (faizal.priyowibowo@dana.id)
@@ -19,15 +19,15 @@ interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTransaction(transaction: TransactionEntity)
 
-    @Query("SELECT * FROM transactions")
-    fun getAllTransactions(): Observable<List<TransactionEntity>>
+    @Query("SELECT * FROM transactions ORDER BY datetime DESC")
+    fun getAllTransactions(): Single<List<TransactionEntity>>
 
     @Query("SELECT " +
         "(SELECT SUM(amount)) AS total, " +
         "(SELECT SUM(amount) FROM transactions WHERE amount > 0) AS cashIn, " +
         "(SELECT SUM(amount) FROM transactions WHERE amount < 0) AS cashOut" +
         " FROM transactions")
-    fun getBalance(): Observable<BalanceData>
+    fun getBalance(): Single<BalanceData>
 
     @Update
     fun updateTransaction(transaction: TransactionEntity)

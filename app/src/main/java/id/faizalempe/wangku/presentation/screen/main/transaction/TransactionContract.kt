@@ -14,6 +14,6 @@ interface TransactionContract {
     }
 
     interface Presenter : AbstractContract.AbstractPresenter {
-        fun getTransactionBalance(startDate: String = "", endDate: String = "")
+        fun getTransactionBalance()
     }
 }

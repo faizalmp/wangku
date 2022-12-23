@@ -1,7 +1,8 @@
 package id.faizalempe.wangku.presentation.screen.main.news
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import id.faizalempe.core.ext.safe
 import id.faizalempe.domain.model.news.ArticleDto
 import id.faizalempe.domain.model.news.NewsDto
 import id.faizalempe.wangku.WangkuApp
@@ -26,33 +27,39 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
     lateinit var presenter: NewsPresenter
 
     private val newsAdapter by lazy {
-        object : GenericRecyclerViewAdapter<ArticleDto, ItemNewsBinding>() {
-
-            override fun inflateViewBinding(inflater: LayoutInflater, parent: ViewGroup): ItemNewsBinding =
-                ItemNewsBinding.inflate(inflater, parent, false)
-
-            override fun onBindItem(itemData: ArticleDto, position: Int) {
-                with(itemBinding) {
-                    tvArticleTitle.text = itemData.title
-                    tvArticleContent.text = itemData.content
-                    ivArticle.loadImage(itemData.urlToImage)
-                }
-            }
-
-            override fun onItemClick(itemData: ArticleDto, position: Int) {
+        GenericRecyclerViewAdapter<ArticleDto, ItemNewsBinding>(
+            areItemsTheSame = { oldItem, newItem -> oldItem.url == newItem.url },
+            itemViewBinding = { inflater, parent -> ItemNewsBinding.inflate(inflater, parent, false) },
+            onBindItem = { itemData, _ ->
+                tvArticleTitle.text = itemData.title
+                tvArticleContent.text = itemData.content
+                ivArticle.loadImage(itemData.urlToImage)
+            },
+            onItemClick = { itemData, _ ->
                 context.startNewContainerActivity(
                     screen = WangkuScreen.Webview,
                     param = WebviewArgs(url = itemData.url, title = itemData.title)
                 )
+            }
+        )
+    }
+
+    private val paginationScrollListener by lazy {
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val lastVisibleIdx = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findLastVisibleItemPosition()
+                safe(lastVisibleIdx) { handlePaginationScroll(it) }
             }
         }
     }
 
     override fun inflateViewBinding(): FragmentNewsBinding = getViewBind(FragmentNewsBinding::inflate)
 
-    override fun onResume() {
-        super.onResume()
-        presenter.getNews()
+    override fun onDestroyView() {
+        binding.rvNews.clearOnScrollListeners()
+        super.onDestroyView()
     }
 
     override fun FragmentNewsBinding.init() {
@@ -60,19 +67,25 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
         presenter.attachView(lifecycle)
         initView()
         initListener()
+        presenter.getNews(true)
     }
 
-    override fun showLoading() {
-        binding.flipperNews.showLoading()
-    }
+    override fun showLoading() = binding.flipperNews.showLoading()
 
-    override fun showError(message: String) {
-        binding.flipperNews.showError()
-    }
+    override fun showPaginationLoading() = binding.pbNewsLoading.visible()
 
-    override fun showContent(news: NewsDto) {
-        binding.flipperNews.showContent()
-        newsAdapter.setData(news.articles)
+    override fun showError(message: String) = binding.flipperNews.showError()
+
+    override fun showContent(news: NewsDto, isFirstTimeLoad: Boolean) {
+        with(binding) {
+            flipperNews.showContent()
+            if (isFirstTimeLoad) {
+                newsAdapter.setData(news.articles)
+            } else {
+                pbNewsLoading.gone()
+                newsAdapter.addData(news.articles)
+            }
+        }
     }
 
     private fun FragmentNewsBinding.initView() {
@@ -83,17 +96,23 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
                 )
             )
             adapter = newsAdapter
+            addOnScrollListener(paginationScrollListener)
         }
     }
 
     private fun FragmentNewsBinding.initListener() {
-        flipperNews.clickRefresh { presenter.getNews() }
+        flipperNews.clickRefresh { presenter.getNews(true) }
     }
 
     private fun inject() {
         WangkuApp.getAppComponent(requireContext())
             .plus(NewsModule(this))
             .inject(this)
+    }
+
+    private fun handlePaginationScroll(lastVisibleIdx: Int) {
+        val size = newsAdapter.itemCount
+        if (size <= lastVisibleIdx.inc()) presenter.getNews(false)
     }
 
 }

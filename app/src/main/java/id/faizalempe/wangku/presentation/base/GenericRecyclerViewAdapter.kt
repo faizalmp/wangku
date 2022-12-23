@@ -2,7 +2,7 @@ package id.faizalempe.wangku.presentation.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import id.faizalempe.wangku.util.ext.clickDebounce
@@ -11,55 +11,45 @@ import id.faizalempe.wangku.util.ext.clickDebounce
  * @author Faizal Muhammad Priyowibowo (faizal.priyowibowo@dana.id)
  * @version GenericAdapter, v 0.1 08/12/22 14.17 by Faizal Muhammad Priyowibowo
  */
-abstract class GenericRecyclerViewAdapter<T : Any, VB: ViewBinding>(
-    private val areContentsTheSame: (oldItem: T, newItem: T) -> Boolean = { old, new -> old == new },
-    private val areItemsTheSame: (oldItem: T, newItem: T) -> Boolean = { old, new -> old == new },
-): RecyclerView.Adapter<GenericRecyclerViewAdapter.GenericViewHolder<T, VB>>() {
-
-    private val diffCallback: DiffItemCallback<T> by lazy { DiffItemCallback(areContentsTheSame, areItemsTheSame) }
-    private val differ: AsyncListDiffer<T> by lazy { AsyncListDiffer(this, diffCallback) }
-
-    protected lateinit var itemBinding: VB
-
-    abstract fun inflateViewBinding(inflater: LayoutInflater, parent: ViewGroup): VB
-
-    abstract fun onBindItem(itemData: T, position: Int)
-
-    abstract fun onItemClick(itemData: T, position: Int)
+class GenericRecyclerViewAdapter<T : Any, VB: ViewBinding>(
+    areContentsTheSame: (oldItem: T, newItem: T) -> Boolean = { old, new -> old == new },
+    areItemsTheSame: (oldItem: T, newItem: T) -> Boolean = { old, new -> old == new },
+    private val itemViewBinding: (inflater: LayoutInflater, parent: ViewGroup) -> VB,
+    private val onBindItem: VB.(itemData: T, position: Int) -> Unit = { _, _ -> },
+    private val onItemClick: VB.(itemData: T, position: Int) -> Unit = { _, _ -> }
+): ListAdapter<T, GenericRecyclerViewAdapter.GenericViewHolder<T, VB>>(
+    DiffItemCallback(areContentsTheSame, areItemsTheSame)
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<T, VB> {
         val inflater = LayoutInflater.from(parent.context)
-        itemBinding = inflateViewBinding(inflater, parent)
-        return GenericViewHolder(itemBinding)
+        return GenericViewHolder(itemViewBinding.invoke(inflater, parent))
     }
-
-    override fun getItemCount(): Int = differ.currentList.size
 
     override fun onBindViewHolder(holder: GenericViewHolder<T, VB>, position: Int) {
-        holder.apply { bind(differ.currentList[adapterPosition], ::onBindItem, ::onItemClick) }
+        holder.apply { bind(getItem(adapterPosition), onBindItem, onItemClick) }
     }
 
-    fun setData(newData: List<T>) = differ.submitList(newData)
+    fun setData(newData: List<T>) = submitList(newData)
 
     fun addData(newData: List<T>) {
-        val list = differ.currentList
-        list.addAll(newData)
-        differ.submitList(list)
+        val list = currentList.toMutableList().apply { addAll(newData) }
+        submitList(list.toList())
     }
 
-    fun clearData() = differ.submitList(emptyList())
+    fun clearData() = submitList(null)
 
     class GenericViewHolder<T, VB: ViewBinding>(
-        itemBinding: VB
+        private val itemBinding: VB
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(
             itemData: T,
-            onBindItem: (itemData: T, position: Int) -> Unit = { _, _ -> },
-            onItemClick: (itemData: T, position: Int) -> Unit = { _, _ -> }
+            onBindItem: VB.(itemData: T, position: Int) -> Unit = { _, _ -> },
+            onItemClick: VB.(itemData: T, position: Int) -> Unit = { _, _ -> }
         ) {
-            onBindItem.invoke(itemData, adapterPosition)
-            itemView.clickDebounce { onItemClick.invoke(itemData, adapterPosition) }
+            onBindItem.invoke(itemBinding, itemData, adapterPosition)
+            itemView.clickDebounce { onItemClick.invoke(itemBinding, itemData, adapterPosition) }
         }
     }
 }

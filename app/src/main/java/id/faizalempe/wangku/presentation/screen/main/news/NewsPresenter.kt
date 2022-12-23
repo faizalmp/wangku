@@ -16,11 +16,21 @@ class NewsPresenter @Inject constructor(
     private val getRemoteNews: GetRemoteNews
 ) : BasePresenter(), NewsContract.Presenter {
 
-    override fun getNews() {
-        view.showLoading()
+    private var currentPage = WangkuConstant.Data.News.DEFAULT_PAGE
+
+    override fun getNews(isFirstTimeLoad: Boolean) {
+        if (isFirstTimeLoad) {
+            view.showLoading()
+            currentPage = WangkuConstant.Data.News.DEFAULT_PAGE
+        } else {
+            view.showPaginationLoading()
+        }
         getRemoteNews.observe(
-            params = GetRemoteNews.Params(page = WangkuConstant.Data.News.DEFAULT_PAGE),
-            onSuccess = { view.showContent(it) },
+            params = GetRemoteNews.Params(page = currentPage),
+            onSuccess = {
+                view.showContent(it, isFirstTimeLoad)
+                currentPage++
+                        },
             onError = { e -> safe(e.message) { view.showError(it) } }
         )
     }
