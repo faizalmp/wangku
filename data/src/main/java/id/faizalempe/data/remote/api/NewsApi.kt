@@ -3,7 +3,7 @@ package id.faizalempe.data.remote.api
 import id.faizalempe.core.constant.WangkuConstant
 import id.faizalempe.data.BuildConfig
 import id.faizalempe.data.remote.response.NewsResponse
-import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -20,5 +20,5 @@ interface NewsApi {
         @Query("category") category: String = WangkuConstant.Data.News.DEFAULT_CATEGORY,
         @Query("page") page: Int = WangkuConstant.Data.News.DEFAULT_PAGE,
         @Query("pageSize") pageSize: Int = WangkuConstant.Data.News.DEFAULT_PAGE_SIZE
-    ): Observable<NewsResponse>
+    ): Single<NewsResponse>
 }

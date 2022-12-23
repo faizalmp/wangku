@@ -5,8 +5,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 
 /**
- * @author Yoko Ahadazaro (yoko.ahadazaro@dana.id)
- * @version BasePresenter, v 0.1 20/12/22 10.32 by Yoko Ahadazaro
+ * @author Faizal Muhammad Priyowibowo (faizal.priyowibowo@dana.id)
+ * @version BasePresenter, v 0.1 20/12/22 10.32 by Faizal Muhammad Priyowibowo
  */
 open class BasePresenter : DefaultLifecycleObserver {
 

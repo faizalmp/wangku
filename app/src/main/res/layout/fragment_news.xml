@@ -35,6 +35,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_news" />
 
+            <ProgressBar
+                android:id="@+id/pb_news_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:indeterminateTint="@color/color_primary"
+                android:progressTint="@color/color_primary" />
+
         </LinearLayout>
 
     </id.faizalempe.wangku.util.view.WangkuViewFlipper>

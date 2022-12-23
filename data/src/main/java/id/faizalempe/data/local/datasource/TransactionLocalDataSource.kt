@@ -17,8 +17,8 @@ class TransactionLocalDataSource @Inject constructor(
 
     override fun getTransactionBalance(): Observable<TransactionBalanceData> =
         Observable.zip(
-            transactionDao.getBalance(),
-            transactionDao.getAllTransactions()
+            transactionDao.getBalance().toObservable(),
+            transactionDao.getAllTransactions().toObservable()
         ) { balance, transactions -> TransactionBalanceData(balance, transactions) }
 
     override fun createTransaction(transaction: TransactionEntity): Observable<Unit> =
