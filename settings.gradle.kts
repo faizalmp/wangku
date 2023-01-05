@@ -16,9 +16,6 @@ rootProject.name = "Wangku"
 include(
     ":app",
     ":data",
-    ":domain"
+    ":domain",
+    ":core"
 )
-include(":shared")
-include(":shared:uikit")
-include(":shared:network")
-include(":core")

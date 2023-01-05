@@ -15,7 +15,8 @@ import id.faizalempe.wangku.presentation.base.BaseFragment
 import id.faizalempe.wangku.presentation.base.GenericRecyclerViewAdapter
 import id.faizalempe.wangku.presentation.screen.main.transaction.detail.DetailTransactionFragment
 import id.faizalempe.wangku.util.ext.clickDebounce
-import id.faizalempe.wangku.util.ext.getViewBind
+import id.faizalempe.wangku.util.ext.getItemViewBinding
+import id.faizalempe.wangku.util.ext.getViewBinding
 import id.faizalempe.wangku.util.view.LinearItemMarginDecoration
 import java.util.Calendar
 import javax.inject.Inject
@@ -32,15 +33,15 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>(), Transact
     private val transactionAdapter by lazy {
         GenericRecyclerViewAdapter<TransactionDto, ItemTransactionBinding>(
             areItemsTheSame = { oldItem, newItem -> oldItem.id == newItem.id },
-            itemViewBinding = { inflater, parent -> ItemTransactionBinding.inflate(inflater, parent, false) },
+            itemViewBinding = { getItemViewBinding(ItemTransactionBinding::inflate) },
             onBindItem = { itemData, _ ->
                 val itemCal = itemData.datetime.toCalendar()
                 tvTransactionDesc.text = itemData.desc
                 tvTransactionCategory.text = itemData.category
-                tvTransactionAmount.text = itemData.amount.toString()
-                tvTransactionDate.text = itemCal.get(Calendar.DAY_OF_MONTH).toString()
+                tvTransactionAmount.text = "${itemData.amount}"
+                tvTransactionDate.text = "${itemCal.get(Calendar.DAY_OF_MONTH)}"
                 tvTransactionMonth.text = itemCal.toDateFormat(CalendarUtil.Format.MONTH_FORMAT)
-                tvTransactionYear.text = itemCal.get(Calendar.YEAR).toString()
+                tvTransactionYear.text = "${itemCal.get(Calendar.YEAR)}"
             },
             onItemClick = { itemData, _ ->
                 DetailTransactionFragment.newInstance(
@@ -52,11 +53,11 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>(), Transact
     }
 
     override fun inflateViewBinding(): FragmentTransactionBinding =
-        getViewBind(FragmentTransactionBinding::inflate)
+        getViewBinding(FragmentTransactionBinding::inflate)
 
     override fun FragmentTransactionBinding.init() {
         inject()
-        presenter.attachView(lifecycle)
+        presenter.attach(lifecycle)
         initView()
         initListener()
         presenter.getTransactionBalance()
@@ -88,9 +89,9 @@ class TransactionFragment : BaseFragment<FragmentTransactionBinding>(), Transact
         with(binding) {
             flipperTransaction.showContent()
             transactionAdapter.setData(transactionBalance.transactions)
-            tvTransactionTotal.text = transactionBalance.balance.total.toString()
-            tvTransactionIncome.text = transactionBalance.balance.cashIn.toString()
-            tvTransactionExpense.text = transactionBalance.balance.cashOut.toString()
+            tvTransactionTotal.text = "${transactionBalance.balance.total}"
+            tvTransactionIncome.text = "${transactionBalance.balance.cashIn}"
+            tvTransactionExpense.text = "${transactionBalance.balance.cashOut}"
         }
     }
 
