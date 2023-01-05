@@ -13,7 +13,7 @@ inline fun <reified T> T.toJsonString() : String {
         .add(KotlinJsonAdapterFactory())
         .build()
     val jsonAdapter = moshi.adapter(T::class.java)
-    return jsonAdapter.toJson(this).toString()
+    return jsonAdapter.toJson(this)
 }
 
 inline fun <reified T> String?.toObject() : T? {

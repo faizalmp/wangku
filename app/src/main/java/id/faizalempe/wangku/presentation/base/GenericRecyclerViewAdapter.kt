@@ -1,6 +1,5 @@
 package id.faizalempe.wangku.presentation.base
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,17 +13,17 @@ import id.faizalempe.wangku.util.ext.clickDebounce
 class GenericRecyclerViewAdapter<T : Any, VB: ViewBinding>(
     areContentsTheSame: (oldItem: T, newItem: T) -> Boolean = { old, new -> old == new },
     areItemsTheSame: (oldItem: T, newItem: T) -> Boolean = { old, new -> old == new },
-    private val itemViewBinding: (inflater: LayoutInflater, parent: ViewGroup) -> VB,
+    private val itemViewBinding: ViewGroup.() -> VB,
     private val onBindItem: VB.(itemData: T, position: Int) -> Unit = { _, _ -> },
     private val onItemClick: VB.(itemData: T, position: Int) -> Unit = { _, _ -> }
 ): ListAdapter<T, GenericRecyclerViewAdapter.GenericViewHolder<T, VB>>(
     DiffItemCallback(areContentsTheSame, areItemsTheSame)
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<T, VB> {
-        val inflater = LayoutInflater.from(parent.context)
-        return GenericViewHolder(itemViewBinding.invoke(inflater, parent))
-    }
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): GenericViewHolder<T, VB> = GenericViewHolder(itemViewBinding.invoke(parent))
 
     override fun onBindViewHolder(holder: GenericViewHolder<T, VB>, position: Int) {
         holder.apply { bind(getItem(adapterPosition), onBindItem, onItemClick) }

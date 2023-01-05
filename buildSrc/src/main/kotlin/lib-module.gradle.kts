@@ -27,14 +27,14 @@ android {
         getByName(Config.BuildTypes.RELEASE) {
             isMinifyEnabled = true
             getPropertiesFile("../config.properties").forEach { key, value ->
-                buildConfigField(type = "String", name = key.toString(), value = value.toString())
+                buildConfigField(type = "String", name = "$key", value = "$value")
             }
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         getByName(Config.BuildTypes.DEBUG) {
             isMinifyEnabled = false
             getPropertiesFile("../config.properties").forEach { key, value ->
-                buildConfigField(type = "String", name = key.toString(), value = value.toString())
+                buildConfigField(type = "String", name = "$key", value = "$value")
             }
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
