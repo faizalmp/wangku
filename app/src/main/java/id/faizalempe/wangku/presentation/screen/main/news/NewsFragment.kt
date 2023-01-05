@@ -29,7 +29,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
     private val newsAdapter by lazy {
         GenericRecyclerViewAdapter<ArticleDto, ItemNewsBinding>(
             areItemsTheSame = { oldItem, newItem -> oldItem.url == newItem.url },
-            itemViewBinding = { inflater, parent -> ItemNewsBinding.inflate(inflater, parent, false) },
+            itemViewBinding = { getItemViewBinding(ItemNewsBinding::inflate) },
             onBindItem = { itemData, _ ->
                 tvArticleTitle.text = itemData.title
                 tvArticleContent.text = itemData.content
@@ -55,7 +55,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
         }
     }
 
-    override fun inflateViewBinding(): FragmentNewsBinding = getViewBind(FragmentNewsBinding::inflate)
+    override fun inflateViewBinding(): FragmentNewsBinding = getViewBinding(FragmentNewsBinding::inflate)
 
     override fun onDestroyView() {
         binding.rvNews.clearOnScrollListeners()
@@ -64,7 +64,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsContract.View {
 
     override fun FragmentNewsBinding.init() {
         inject()
-        presenter.attachView(lifecycle)
+        presenter.attach(lifecycle)
         initView()
         initListener()
         presenter.getNews(true)

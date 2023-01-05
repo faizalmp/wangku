@@ -12,7 +12,7 @@ open class BasePresenter : DefaultLifecycleObserver {
 
     private var lifecycle: Lifecycle? = null
 
-    fun attachView(lifecycle: Lifecycle) {
+    fun attach(lifecycle: Lifecycle) {
         this.lifecycle = lifecycle
 
         lifecycle.addObserver(this)

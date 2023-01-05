@@ -17,7 +17,7 @@ import id.faizalempe.wangku.databinding.FragmentTransactionDetailBinding
 import id.faizalempe.wangku.presentation.base.BaseBottomSheetFragment
 import id.faizalempe.wangku.presentation.di.main.transaction.detail.DetailTransactionModule
 import id.faizalempe.wangku.util.ext.clickDebounce
-import id.faizalempe.wangku.util.ext.getViewBind
+import id.faizalempe.wangku.util.ext.getViewBinding
 import id.faizalempe.wangku.util.ext.goneIf
 import id.faizalempe.wangku.util.ext.showToast
 import java.util.Calendar
@@ -41,7 +41,7 @@ class DetailTransactionFragment :
     lateinit var presenter: DetailTransactionPresenter
 
     override fun inflateViewBinding(): FragmentTransactionDetailBinding =
-        getViewBind(FragmentTransactionDetailBinding::inflate)
+        getViewBinding(FragmentTransactionDetailBinding::inflate)
 
     override fun showLoading() = binding.flipperTransactiondetail.showLoading()
 
@@ -54,7 +54,7 @@ class DetailTransactionFragment :
 
     override fun FragmentTransactionDetailBinding.init() {
         inject()
-        presenter.attachView(lifecycle)
+        presenter.attach(lifecycle)
         initView()
         initListener()
     }
@@ -66,7 +66,7 @@ class DetailTransactionFragment :
             tvTransactiondetailTitle.text = getString(R.string.transactiondetail_edit_title)
             btnTransactiondetail.text = getString(R.string.transactiondetail_edit_action)
             etTransactiondetailDate.setText(data.datetime)
-            etTransactiondetailAmount.setText(data.amount.toString())
+            etTransactiondetailAmount.setText("${data.amount}")
             etTransactiondetailDesc.setText(data.desc)
             rgTransactiondetail.check(
                 if (data.category == WangkuConstant.TransactionCategory.INCOME) {

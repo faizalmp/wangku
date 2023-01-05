@@ -8,7 +8,7 @@ import id.faizalempe.data.util.toObject
 import id.faizalempe.wangku.databinding.FragmentWebviewBinding
 import id.faizalempe.wangku.presentation.screen.ContainerActivity
 import id.faizalempe.wangku.presentation.base.BaseFragment
-import id.faizalempe.wangku.util.ext.getViewBind
+import id.faizalempe.wangku.util.ext.getViewBinding
 import id.faizalempe.wangku.util.ext.goneIf
 import id.faizalempe.wangku.util.ext.visible
 
@@ -23,7 +23,7 @@ class WebviewFragment : BaseFragment<FragmentWebviewBinding>() {
     }
 
     override fun inflateViewBinding(): FragmentWebviewBinding =
-        getViewBind(FragmentWebviewBinding::inflate)
+        getViewBinding(FragmentWebviewBinding::inflate)
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun FragmentWebviewBinding.init() {

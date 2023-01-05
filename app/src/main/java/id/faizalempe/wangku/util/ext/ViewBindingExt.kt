@@ -1,6 +1,7 @@
 package id.faizalempe.wangku.util.ext
 
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -13,17 +14,21 @@ import androidx.viewbinding.ViewBinding
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ): Lazy<T> =
-    lazy(LazyThreadSafetyMode.NONE) { getViewBind(bindingInflater) }
+    lazy(LazyThreadSafetyMode.NONE) { getViewBinding(bindingInflater) }
 
 inline fun <T : ViewBinding> Fragment.viewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ): Lazy<T> =
-    lazy(LazyThreadSafetyMode.NONE) { getViewBind(bindingInflater) }
+    lazy(LazyThreadSafetyMode.NONE) { getViewBinding(bindingInflater) }
 
-inline fun <T : ViewBinding> AppCompatActivity.getViewBind(
+inline fun <T : ViewBinding> AppCompatActivity.getViewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ) = bindingInflater.invoke(layoutInflater)
 
-inline fun <T : ViewBinding> Fragment.getViewBind(
+inline fun <T : ViewBinding> Fragment.getViewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ) = bindingInflater.invoke(layoutInflater)
+
+inline fun <T : ViewBinding> ViewGroup.getItemViewBinding(
+    crossinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> T
+) = bindingInflater.invoke(LayoutInflater.from(context), this, false)

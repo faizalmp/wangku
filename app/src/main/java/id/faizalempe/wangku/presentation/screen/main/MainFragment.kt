@@ -7,7 +7,7 @@ import id.faizalempe.core.ext.safe
 import id.faizalempe.wangku.R
 import id.faizalempe.wangku.databinding.FragmentMainBinding
 import id.faizalempe.wangku.presentation.base.BaseFragment
-import id.faizalempe.wangku.util.ext.getViewBind
+import id.faizalempe.wangku.util.ext.getViewBinding
 
 /**
  * @author Faizal Muhammad Priyowibowo (faizal.priyowibowo@dana.id)
@@ -21,7 +21,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     }
 
     override fun inflateViewBinding(): FragmentMainBinding =
-        getViewBind(FragmentMainBinding::inflate)
+        getViewBinding(FragmentMainBinding::inflate)
 
     override fun FragmentMainBinding.init() {
         safe(navChildController) { bottomnavMain.setupWithNavController(it) }
