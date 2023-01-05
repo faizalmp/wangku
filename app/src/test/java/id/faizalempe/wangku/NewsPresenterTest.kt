@@ -49,12 +49,12 @@ class NewsPresenterTest {
         }
 
         // when
-        presenter.getNews()
+        presenter.getNews(true)
 
         // then
         verify {
             view.showLoading()
-            view.showContent(any())
+            view.showContent(any(), any())
         }
     }
 
